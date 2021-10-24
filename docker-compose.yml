@@ -4,7 +4,7 @@ services:
   dashboard:
     container_name: dashboard
     hostname: dashboard
-    image: 'valtman/dashboard-service:0.0.4'
+    image: 'valtman/dashboard-service:0.0.5'
     restart: always
     ports:
       - '8080:8080'
@@ -19,7 +19,7 @@ services:
   counting-service:
     container_name: counting-service
     hostname: counting-service
-    image: 'valtman/counting-service:0.0.2'
+    image: 'valtman/counting-service:0.0.5'
     restart: always
     ports:
       - '9001:9001'
