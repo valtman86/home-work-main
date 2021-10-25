@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: counting-deployment
+spec:
+  containers:
+  - name: counting
+    image: valtman/counting-service:0.0.5
+    ports:
+    - containerPort: 9001
+      name: http
