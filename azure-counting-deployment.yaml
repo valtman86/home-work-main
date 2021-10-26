@@ -1,0 +1,88 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dashboard
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dashboard
+  template:
+    metadata:
+      labels:
+        app: dashboard
+    spec:
+      nodeSelector:
+        "kubernetes.io/os": linux
+      containers:
+      - name: dashboard
+        image: valtman/dashboard-service:0.0.5
+        env:
+        - name: COUNTING_SERVICE_URL
+          value: "http://counting-load-balancer:9001"
+        resources:
+          requests:
+            cpu: 100m
+            memory: 128Mi
+          limits:
+            cpu: 250m
+            memory: 256Mi
+        ports:
+        - containerPort: 9002
+          name: dashboard
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: dashboard-load-balancer
+spec:
+  ports:
+  - protocol: "TCP"
+    port: 80
+    targetPort: 9002
+  selector:
+    app: dashboard
+  type: LoadBalancer
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: counting
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: counting
+  template:
+    metadata:
+      labels:
+        app: counting
+    spec:
+      nodeSelector:
+        "kubernetes.io/os": linux
+      containers:
+      - name: counting
+        image: valtman/counting-service:0.0.5
+        resources:
+          requests:
+            cpu: 100m
+            memory: 128Mi
+          limits:
+            cpu: 250m
+            memory: 256Mi
+        ports:
+        - containerPort: 9001
+          name: http
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: counting-load-balancer
+spec:
+  ports:
+  - protocol: "TCP"
+    port: 9001
+    targetPort: 9001
+  selector:
+    app: counting
+ # type: LoadBalancer 
