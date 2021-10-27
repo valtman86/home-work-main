@@ -4,7 +4,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@main
+    - uses: docker/build-push-action@v2
     - name: valtman/counting-service
       uses: valtman86/home-work-main@main
       with:
