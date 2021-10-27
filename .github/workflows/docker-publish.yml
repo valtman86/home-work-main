@@ -6,7 +6,7 @@ jobs:
     steps:
     - uses: actions/checkout@master
     - name: valtman/counting-service
-      uses: valtman86/home-work-main@master
+      uses: valtman86/home-work-main@main
       with:
         name: valtman/counting-service
         username: ${{ secrets.DOCKER_USERNAME }}
