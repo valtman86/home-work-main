@@ -15,4 +15,4 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Build the Docker image
-      run: docker build . --tag valtman/counting-service:$(date +%s) --file /counting-service/Dockerfile
+      run: docker build . --tag valtman/counting-service:$(date +%s) --file /home-work-main/counting-service/Dockerfile
