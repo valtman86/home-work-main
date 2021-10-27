@@ -1,0 +1,13 @@
+name: Publish Docker
+on: [push]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    - name: valtman/counting-service
+      uses: valtman86/home-work-main@master
+      with:
+        name: valtman/counting-service
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
