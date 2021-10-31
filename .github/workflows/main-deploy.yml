@@ -1,5 +1,5 @@
 on: [push]
-name: Linux_Container_Workflow
+name: NEW_Container_Workflow
 
 jobs:
     build-and-deploy:
@@ -23,9 +23,26 @@ jobs:
         - run: |
             docker build . -f ./counting-service/Dockerfile -t ${{ secrets.REGISTRY_LOGIN_SERVER }}/counting-service:${{ github.sha }}
             docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/counting-service:${{ github.sha }}
+            docker build . -f ./dashboard-service/Dockerfile -t ${{ secrets.REGISTRY_LOGIN_SERVER }}/dashboard-service:${{ github.sha }}
+            docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/dashboard-service:${{ github.sha }}
 
-        - name: 'Deploy to Azure Container Instances'
-          uses: 'azure/aci-deploy@v1'
+
+
+        - name: 'Deploy dashboard-service'
+          uses: 'azure/k8s-deploy@v1'
+          with:
+            resource-group: ${{ secrets.RESOURCE_GROUP }}
+            dns-name-label: ${{ secrets.RESOURCE_GROUP }}${{ github.run_number }}
+            image: ${{ secrets.REGISTRY_LOGIN_SERVER }}/dashboard-service:${{ github.sha }}
+            registry-login-server: ${{ secrets.REGISTRY_LOGIN_SERVER }}
+            registry-username: ${{ secrets.REGISTRY_USERNAME }}
+            registry-password: ${{ secrets.REGISTRY_PASSWORD }}
+            name: dep-dashboard-service
+            location: 'west us'
+            manifests: dashboard-service/deployment.yaml
+            
+        - name: 'Deploy counting-service'
+          uses: 'azure/k8s-deploy@v1'
           with:
             resource-group: ${{ secrets.RESOURCE_GROUP }}
             dns-name-label: ${{ secrets.RESOURCE_GROUP }}${{ github.run_number }}
@@ -33,5 +50,7 @@ jobs:
             registry-login-server: ${{ secrets.REGISTRY_LOGIN_SERVER }}
             registry-username: ${{ secrets.REGISTRY_USERNAME }}
             registry-password: ${{ secrets.REGISTRY_PASSWORD }}
-            name: counting-service
+            name: dep-counting-service
             location: 'west us'
+            manifests: counting-service/deployment.yaml            
+            
