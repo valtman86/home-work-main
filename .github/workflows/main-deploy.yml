@@ -25,7 +25,11 @@ jobs:
             docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/counting-service:${{ github.sha }}
             docker build . -f ./dashboard-service/Dockerfile -t ${{ secrets.REGISTRY_LOGIN_SERVER }}/dashboard-service:${{ github.sha }}
             docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/dashboard-service:${{ github.sha }}
-
+        - uses: azure/aks-set-context@v1
+          with:
+            creds: '${{ secrets.AZURE_CREDENTIALS }}'
+            cluster-name: 1valcontainerregistry
+            resource-group: 1valResourceGroup
         - uses: azure/k8s-create-secret@v1
           with:
             container-registry-url: ${{ secrets.REGISTRY_LOGIN_SERVER }}
