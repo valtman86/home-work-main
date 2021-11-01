@@ -28,7 +28,7 @@ spec:
             cpu: 250m
             memory: 256Mi
         ports:
-        - containerPort: 9002
+        - containerPort: 80
           name: dashboard
 ---
 apiVersion: v1
@@ -39,7 +39,7 @@ spec:
   ports:
   - protocol: "TCP"
     port: 80
-    targetPort: 9002
+    #targetPort: 9002
   selector:
     app: dashboard
   type: ClusterIP
