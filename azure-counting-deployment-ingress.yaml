@@ -19,7 +19,7 @@ spec:
         image: valtman/dashboard-service:0.0.5
         env:
         - name: COUNTING_SERVICE_URL
-          value: "http://10.0.234.105:9001"
+          value: "http://localhost:9001"
         resources:
           requests:
             cpu: 100m
