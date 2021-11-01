@@ -52,25 +52,34 @@ jobs:
         force: true
     
     # Deploy app to AKS counting-service
-    - uses: azure/k8s-deploy@v1
-      with:
-        manifests: |
-          counting-service/deployment.yaml
-          counting-service/service.yaml
-        images: |
-          ${{ env.REGISTRY_NAME }}.azurecr.io/${{ env.APP_NAME }}:${{ github.sha }}
-        imagepullsecrets: |
-          ${{ env.SECRET }}
-        namespace: ${{ env.NAMESPACE }}
+    #- uses: azure/k8s-deploy@
+      #with:
+        #manifests: |
+          #counting-service/deployment.yaml
+          #counting-service/service.yaml
+        #images: |
+          #${{ env.REGISTRY_NAME }}.azurecr.io/${{ env.APP_NAME }}:${{ github.sha }}
+        #imagepullsecrets: |
+          #${{ env.SECRET }}
+        #namespace: ${{ env.NAMESPACE }}
         
     # Deploy app to AKS dashboard-service
+    #- uses: azure/k8s-deploy@v1
+      #with:
+        #manifests: |
+          #dashboard-service/deployment.yaml
+          #dashboard-service/service.yaml
+        #images: |
+          #${{ env.REGISTRY_NAME }}.azurecr.io/${{ env.APP_NAME }}:${{ github.sha }}
+        #imagepullsecrets: |
+          #${{ env.SECRET }}
+        #namespace: ${{ env.NAMESPACE }}  
+        
     - uses: azure/k8s-deploy@v1
       with:
-        manifests: |
-          dashboard-service/deployment.yaml
-          dashboard-service/service.yaml
-        images: |
-          ${{ env.REGISTRY_NAME }}.azurecr.io/${{ env.APP_NAME }}:${{ github.sha }}
+        manifests: azure-counting-deployment.yaml
+
         imagepullsecrets: |
-          ${{ env.SECRET }}
-        namespace: ${{ env.NAMESPACE }}    
+          #${{ env.SECRET }}
+        namespace: ${{ env.NAMESPACE }}   
+
