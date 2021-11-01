@@ -1,5 +1,5 @@
 on: [push]
-name: NEW_Container_Workflow
+name: k8s-deploy
 
 jobs:
     build-and-deploy:
@@ -28,7 +28,11 @@ jobs:
         - uses: azure/aks-set-context@v1
           with:
             creds: '${{ secrets.AZURE_CREDENTIALS }}'
+<<<<<<< HEAD
             cluster-name: 1valcontainerregistry
+=======
+            cluster-name: 1valAKSCluster
+>>>>>>> c87abe87c616628394b737a249a1045f42e52f9d
             resource-group: 1valResourceGroup
         - uses: azure/k8s-create-secret@v1
           with:
