@@ -26,16 +26,3 @@ spec:
         ports:
         - containerPort: 9001
           name: http
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: counting-load-balancer
-spec:
-  ports:
-  - protocol: "TCP"
-    port: 9001
-    targetPort: 9001
-  selector:
-    app: counting
- # type: LoadBalancer 

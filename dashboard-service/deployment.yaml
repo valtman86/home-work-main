@@ -29,16 +29,3 @@ spec:
         ports:
         - containerPort: 9002
           name: dashboard
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: dashboard-load-balancer
-spec:
-  ports:
-  - protocol: "TCP"
-    port: 80
-    targetPort: 9002
-  selector:
-    app: dashboard
-  type: LoadBalancer

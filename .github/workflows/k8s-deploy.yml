@@ -55,8 +55,8 @@ jobs:
     - uses: azure/k8s-deploy@v1
       with:
         #manifests: |
-          #counting-service/deployment.yaml
-          #counting-service/service.yaml
+          counting-service/deployment.yaml
+          counting-service/service.yaml
         images: |
           ${{ env.REGISTRY_NAME }}.azurecr.io/${{ env.APP_NAME }}:${{ github.sha }}
         imagepullsecrets: |
@@ -67,8 +67,8 @@ jobs:
     - uses: azure/k8s-deploy@v1
       with:
         #manifests: |
-          #dashboard-service/deployment.yaml
-          #dashboard-service/service.yaml
+          dashboard-service/deployment.yaml
+          dashboard-service/service.yaml
         images: |
           ${{ env.REGISTRY_NAME }}.azurecr.io/${{ env.APP_NAME }}:${{ github.sha }}
         imagepullsecrets: |
