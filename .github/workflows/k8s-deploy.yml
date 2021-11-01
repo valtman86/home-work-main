@@ -8,6 +8,7 @@ env:
   NAMESPACE: 1valnamespace
   SECRET: 1val-secret
   APP_NAME: counting-service
+  APP_NAME2: dashboard-service
   
 jobs:
   build:
@@ -26,6 +27,8 @@ jobs:
     - run: |
         docker build .  -f ./counting-service/Dockerfile -t ${{ env.REGISTRY_NAME }}.azurecr.io/${{ env.APP_NAME }}:${{ github.sha }}
         docker push ${{ env.REGISTRY_NAME }}.azurecr.io/${{ env.APP_NAME }}:${{ github.sha }}
+        docker build .  -f ./dashboard-service/Dockerfile -t ${{ env.REGISTRY_NAME }}.azurecr.io/${{ env.APP_NAME2 }}:${{ github.sha }}
+        docker push ${{ env.REGISTRY_NAME }}.azurecr.io/${{ env.APP_NAME2 }}:${{ github.sha }}
     
     # Set the target Azure Kubernetes Service (AKS) cluster. 
     - uses: azure/aks-set-context@v1
@@ -48,7 +51,7 @@ jobs:
         namespace: ${{ env.NAMESPACE }}
         force: true
     
-    # Deploy app to AKS
+    # Deploy app to AKS counting-service
     - uses: azure/k8s-deploy@v1
       with:
         manifests: |
@@ -59,3 +62,15 @@ jobs:
         imagepullsecrets: |
           ${{ env.SECRET }}
         namespace: ${{ env.NAMESPACE }}
+        
+    # Deploy app to AKS dashboard-service
+    - uses: azure/k8s-deploy@v1
+      with:
+        manifests: |
+          dashboard-service/deployment.yaml
+          dashboard-service/service.yaml
+        images: |
+          ${{ env.REGISTRY_NAME }}.azurecr.io/${{ env.APP_NAME }}:${{ github.sha }}
+        imagepullsecrets: |
+          ${{ env.SECRET }}
+        namespace: ${{ env.NAMESPACE }}    
