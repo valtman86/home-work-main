@@ -28,7 +28,7 @@ jobs:
         - uses: azure/aks-set-context@v1
           with:
             creds: '${{ secrets.AZURE_CREDENTIALS }}'
-            cluster-name: Azure subscription 1
+            cluster-name: 1valcontainerregistry
             resource-group: 1valResourceGroup
         - uses: azure/k8s-create-secret@v1
           with:
