@@ -108,4 +108,4 @@ spec:
             name: dashboard-service
             port: 
               number: 80
-        path: /static(/|$)(.*)
+      - path: /static(/|$)(.*)
