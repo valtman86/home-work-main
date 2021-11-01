@@ -34,15 +34,15 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: dashboard-load-balancer
+  name: dashboard-service
 spec:
   ports:
   - protocol: "TCP"
     port: 80
-    targetPort: 9002
+    #targetPort: 9002
   selector:
     app: dashboard
-  type: LoadBalancer
+  type: ClusterIP
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -77,32 +77,35 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: counting-load-balancer
+  name: counting-service
 spec:
   ports:
   - protocol: "TCP"
     port: 9001
-    targetPort: 9001
+    #targetPort: 9001
   selector:
     app: counting
- # type: LoadBalancer 
+  type: ClusterIP 
  
  
+---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-    annotations:
-      kubernetes.io/ingress.class: nginx
-    name: valingress
-    namespace: val-ingress
+  name: 1valingress
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+    nginx.ingress.kubernetes.io/rewrite-target: /static/$2
 spec:
-    ingressClassName: val-class
-    rules:
-      - http:
-          paths:
-            - path: /
-              pathType: Prefix
-              backend:
-                service:
-                  name: counting-service
-                  port: 80
+  rules:
+  - http:
+      paths:
+      - path:
+        pathType: Prefix
+        backend:
+          service:
+            name: dashboard-service
+            port: 
+              number: 80
+        path: /static(/|$)(.*)
