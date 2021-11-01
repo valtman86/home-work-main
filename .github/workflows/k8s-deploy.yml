@@ -54,7 +54,7 @@ jobs:
     # Deploy app to AKS counting-service
     - uses: azure/k8s-deploy@v1
       with:
-        #manifests: |
+        manifests: |
           counting-service/deployment.yaml
           counting-service/service.yaml
         images: |
@@ -66,7 +66,7 @@ jobs:
     # Deploy app to AKS dashboard-service
     - uses: azure/k8s-deploy@v1
       with:
-        #manifests: |
+        manifests: |
           dashboard-service/deployment.yaml
           dashboard-service/service.yaml
         images: |
