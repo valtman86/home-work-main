@@ -1,5 +1,5 @@
 on: [push]
-name: k8s-deploy
+name: deploy
 
 jobs:
     build-and-deploy:
