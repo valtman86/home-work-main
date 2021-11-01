@@ -19,7 +19,7 @@ spec:
         image: valtman/dashboard-service:0.0.5
         env:
         - name: COUNTING_SERVICE_URL
-          value: "http://counting-service:9001"
+          value: "http://counting-load-balancer:9001"
         resources:
           requests:
             cpu: 100m
@@ -108,4 +108,11 @@ spec:
             name: dashboard-service
             port: 
               number: 80
+      - path: /counting-service(/|$)(.*)
+        pathType: Prefix
+        backend:
+          service:
+            name: counting-service
+            port: 
+              number: 9001        
             
